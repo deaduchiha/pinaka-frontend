@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  pinaka-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3001
+    volumes:
+      - ./public:/app/public
+    restart: unless-stopped
+    networks:
+      - pinaka-network
+
+  # Development service
+  pinaka-frontend-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3001
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped
+    networks:
+      - pinaka-network
+    profiles:
+      - dev
+
+networks:
+  pinaka-network:
+    driver: bridge 
