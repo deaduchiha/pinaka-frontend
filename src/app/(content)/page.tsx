@@ -17,10 +17,8 @@ export default function Home() {
               مشتریان را به راحتی انجام دهید.
             </p>
             <div className="flex justify-center space-x-4 space-x-reverse">
-              <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700">
-                شروع کنید
-              </Button>
-              <Button variant="outline" size="lg">
+              <Button size="lg">شروع کنید</Button>
+              <Button variant="secondary" size="lg">
                 بیشتر بدانید
               </Button>
             </div>
