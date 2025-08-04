@@ -105,7 +105,7 @@ export const useAuthStore = create<AuthStore>()(
       logout: async () => {
         set({ isLoading: true });
         try {
-          await authApi.logout();
+          // await authApi.logout();
         } catch {
           // Continue with logout even if API call fails
         } finally {
