@@ -28,7 +28,7 @@ export const productsApi = {
       `/products?${params.toString()}`
     );
 
-    return response as unknown as TProductsResponse;
+    return response.data;
   },
 
   // Get single product
