@@ -4,7 +4,6 @@ import { api } from "./client";
 export interface LoginRequest {
   phone: string;
   password: string;
-  rememberMe?: boolean;
 }
 
 export interface RegisterRequest {
@@ -16,28 +15,13 @@ export interface RegisterRequest {
 
 export interface AuthResponse {
   user: {
+    email?: string;
     id: string;
     name: string;
     phone: string;
-    email?: string;
     role: "admin" | "manager" | "customer";
-    avatar?: string;
-    createdAt: string;
-    updatedAt: string;
   };
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
-}
-
-export interface RefreshTokenRequest {
-  refreshToken: string;
-}
-
-export interface RefreshTokenResponse {
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
+  access_token: string;
 }
 
 export interface ChangePasswordRequest {
@@ -65,7 +49,7 @@ export const authApi = {
   // Login
   login: async (data: LoginRequest): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>("/auth/login", data);
-    return response.data;
+    return response as unknown as AuthResponse;
   },
 
   // Register
@@ -79,21 +63,10 @@ export const authApi = {
     await api.post("/auth/logout");
   },
 
-  // Refresh token
-  refreshToken: async (
-    data: RefreshTokenRequest
-  ): Promise<RefreshTokenResponse> => {
-    const response = await api.post<RefreshTokenResponse>(
-      "/auth/refresh",
-      data
-    );
-    return response.data;
-  },
-
   // Get current user
   getCurrentUser: async () => {
     const response = await api.get("/auth/me");
-    return response.data;
+    return response;
   },
 
   // Change password

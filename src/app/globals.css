@@ -1,6 +1,40 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@theme {
+  /* Jet Black */
+  --color-jetblack-100: #d1d1d1;
+  --color-jetblack-200: #a3a3a3;
+  --color-jetblack-300: #767676;
+  --color-jetblack-400: #484848;
+  --color-jetblack-500: #1a1a1a;
+  --color-jetblack-600: #151515;
+  --color-jetblack-700: #101010;
+  --color-jetblack-800: #0a0a0a;
+
+  /* Platinum */
+  --color-platinum-100: #fafafa;
+  --color-platinum-200: #f5f5f5;
+  --color-platinum-300: #efefef;
+  --color-platinum-400: #eaeaea;
+  --color-platinum-500: #e5e5e5;
+  --color-platinum-600: #b7b7b7;
+  --color-platinum-700: #898989;
+  --color-platinum-800: #5c5c5c;
+  --color-platinum-900: #2e2e2e;
+
+  /* Cold Grey */
+  --color-coldgrey-100: #efefef;
+  --color-coldgrey-200: #dfdfdf;
+  --color-coldgrey-300: #d0d0d0;
+  --color-coldgrey-400: #c0c0c0;
+  --color-coldgrey-500: #b0b0b0;
+  --color-coldgrey-600: #8d8d8d;
+  --color-coldgrey-700: #6a6a6a;
+  --color-coldgrey-800: #464646;
+  --color-coldgrey-900: #232323;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -117,6 +151,69 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-platinum-300 text-foreground;
+  }
+}
+
+/* Custom animations for enhanced sheet experience */
+@keyframes slideInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutToRight {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
   }
 }

@@ -5,6 +5,7 @@ import axios, {
   AxiosError,
 } from "axios";
 import { toast } from "sonner";
+import { useAuthStore } from "../store/auth-store";
 
 // API Configuration
 const API_BASE_URL =
@@ -23,12 +24,10 @@ const apiClient: AxiosInstance = axios.create({
 // Request interceptor for adding auth token
 apiClient.interceptors.request.use(
   (config) => {
+    const { access_token } = useAuthStore.getState();
     // Add auth token if available
-    const token = localStorage.getItem(
-      process.env.NEXT_PUBLIC_AUTH_TOKEN_KEY || "pinaka_auth_token"
-    );
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (access_token) {
+      config.headers.Authorization = `Bearer ${access_token}`;
     }
 
     return config;
@@ -53,37 +52,12 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        // Try to refresh token
-        const refreshToken = localStorage.getItem(
-          process.env.NEXT_PUBLIC_REFRESH_TOKEN_KEY || "pinaka_refresh_token"
-        );
-        if (refreshToken) {
-          const response = await axios.post(
-            `${API_BASE_URL}/${API_VERSION}/auth/refresh`,
-            {
-              refreshToken,
-            }
-          );
-
-          const { accessToken } = response.data;
-          localStorage.setItem(
-            process.env.NEXT_PUBLIC_AUTH_TOKEN_KEY || "pinaka_auth_token",
-            accessToken
-          );
-
-          // Retry original request
-          if (originalRequest.headers) {
-            originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-          }
-          return apiClient(originalRequest);
-        }
+        // Retry original request
+        return apiClient(originalRequest);
       } catch {
         // Refresh failed, redirect to login
         localStorage.removeItem(
           process.env.NEXT_PUBLIC_AUTH_TOKEN_KEY || "pinaka_auth_token"
-        );
-        localStorage.removeItem(
-          process.env.NEXT_PUBLIC_REFRESH_TOKEN_KEY || "pinaka_refresh_token"
         );
         window.location.href = "/login";
       }

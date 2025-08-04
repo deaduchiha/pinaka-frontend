@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Vazirmatn } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 
-const inter = Inter({ subsets: ["latin"] });
+const vazirmatn = Vazirmatn();
 
 export const metadata: Metadata = {
   title: "Pinaka E-commerce",
   description: "Modern e-commerce platform built with Next.js",
   keywords: ["e-commerce", "shopping", "online store", "pinaka"],
-  authors: [{ name: "Pinaka Team" }],
-  viewport: "width=device-width, initial-scale=1",
-  robots: "index, follow",
   openGraph: {
     title: "Pinaka E-commerce",
     description: "Modern e-commerce platform built with Next.js",
@@ -26,8 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fa" dir="rtl">
-      <body className={inter.className}>
+    <html lang="fa_IR" dir="rtl">
+      <body className={vazirmatn.className}>
         <Providers>{children}</Providers>
       </body>
     </html>
