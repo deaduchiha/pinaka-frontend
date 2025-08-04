@@ -88,7 +88,7 @@ export default function AdminProductsPage() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: queryKeys.products.list(queryParams),
+    queryKey: ["products", queryParams],
     queryFn: () => productsApi.getProducts(queryParams),
     placeholderData: keepPreviousData,
   });
