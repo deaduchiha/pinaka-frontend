@@ -112,7 +112,7 @@ export function Sidebar({ className }: SidebarProps) {
 
   const getNavItems = () => {
     if (!user) return [];
-    
+
     switch (user.role) {
       case "admin":
         return adminNavItems;
@@ -137,7 +137,7 @@ export function Sidebar({ className }: SidebarProps) {
 
   const getRoleIcon = () => {
     if (!user) return null;
-    
+
     switch (user.role) {
       case "admin":
         return <Crown className="h-4 w-4 text-yellow-500" />;
@@ -152,7 +152,7 @@ export function Sidebar({ className }: SidebarProps) {
 
   const getRoleText = () => {
     if (!user) return "";
-    
+
     switch (user.role) {
       case "admin":
         return "مدیر سیستم";
@@ -189,7 +189,11 @@ export function Sidebar({ className }: SidebarProps) {
           onClick={() => setIsCollapsed(!isCollapsed)}
           className="p-1"
         >
-          {isCollapsed ? <Menu className="h-4 w-4" /> : <X className="h-4 w-4" />}
+          {isCollapsed ? (
+            <Menu className="h-4 w-4" />
+          ) : (
+            <X className="h-4 w-4" />
+          )}
         </Button>
       </div>
 
@@ -228,7 +232,9 @@ export function Sidebar({ className }: SidebarProps) {
                 variant={isActive ? "default" : "ghost"}
                 className={cn(
                   "w-full justify-start",
-                  isActive ? "bg-indigo-600 text-white" : "text-gray-700 hover:bg-gray-100"
+                  isActive
+                    ? "bg-indigo-600 text-white"
+                    : "text-gray-700 hover:bg-gray-100"
                 )}
               >
                 <item.icon className="h-4 w-4 ml-2" />
@@ -252,4 +258,4 @@ export function Sidebar({ className }: SidebarProps) {
       </div>
     </div>
   );
-} 
+}

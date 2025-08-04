@@ -1,64 +1,19 @@
 import { api } from "./client";
-
-// Types
-export interface Product {
-  id: string;
-  name: string;
-  sku: string;
-  description?: string;
-  price: number;
-  category: string;
-  stockQuantity: number;
-  image?: string;
-  status: "active" | "inactive" | "draft";
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface CreateProductRequest {
-  name: string;
-  sku: string;
-  description?: string;
-  price: number;
-  category: string;
-  stockQuantity: number;
-  image?: string;
-  status?: "active" | "inactive" | "draft";
-}
-
-export interface UpdateProductRequest extends Partial<CreateProductRequest> {
-  id: string;
-}
-
-export interface ProductsQuery {
-  page?: number;
-  limit?: number;
-  status?: Product["status"];
-  category?: string;
-  search?: string;
-  sortBy?: "name" | "price" | "createdAt";
-  sortOrder?: "asc" | "desc";
-}
-
-export interface ProductsResponse {
-  products: Product[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
-
-export interface Category {
-  id: string;
-  name: string;
-  description?: string;
-  productCount: number;
-}
+import {
+  TProduct,
+  TCreateProductRequest,
+  TUpdateProductRequest,
+  TProductsQuery,
+  TProductsResponse,
+  TCategory,
+} from "@/types/api/products";
 
 // Products API service
 export const productsApi = {
   // Get all products with filters
-  getProducts: async (query: ProductsQuery = {}): Promise<ProductsResponse> => {
+  getProducts: async (
+    query: TProductsQuery = {}
+  ): Promise<TProductsResponse> => {
     const params = new URLSearchParams();
 
     if (query.page) params.append("page", query.page.toString());
@@ -69,29 +24,29 @@ export const productsApi = {
     if (query.sortBy) params.append("sortBy", query.sortBy);
     if (query.sortOrder) params.append("sortOrder", query.sortOrder);
 
-    const response = await api.get<ProductsResponse>(
+    const response = await api.get<TProductsResponse>(
       `/products?${params.toString()}`
     );
 
-    return response as unknown as ProductsResponse;
+    return response as unknown as TProductsResponse;
   },
 
   // Get single product
-  getProduct: async (id: string): Promise<Product> => {
-    const response = await api.get<Product>(`/products/${id}`);
+  getProduct: async (id: string): Promise<TProduct> => {
+    const response = await api.get<TProduct>(`/products/${id}`);
     return response.data;
   },
 
   // Create product
-  createProduct: async (data: CreateProductRequest): Promise<Product> => {
-    const response = await api.post<Product>("/products", data);
+  createProduct: async (data: TCreateProductRequest): Promise<TProduct> => {
+    const response = await api.post<TProduct>("/products", data);
     return response.data;
   },
 
   // Update product
-  updateProduct: async (data: UpdateProductRequest): Promise<Product> => {
+  updateProduct: async (data: TUpdateProductRequest): Promise<TProduct> => {
     const { id, ...updateData } = data;
-    const response = await api.put<Product>(`/products/${id}`, updateData);
+    const response = await api.put<TProduct>(`/products/${id}`, updateData);
     return response.data;
   },
 
@@ -106,8 +61,8 @@ export const productsApi = {
   },
 
   // Get categories
-  getCategories: async (): Promise<Category[]> => {
-    const response = await api.get<Category[]>("/products/categories");
+  getCategories: async (): Promise<TCategory[]> => {
+    const response = await api.get<TCategory[]>("/products/categories");
     return response.data;
   },
 
@@ -115,8 +70,8 @@ export const productsApi = {
   createCategory: async (data: {
     name: string;
     description?: string;
-  }): Promise<Category> => {
-    const response = await api.post<Category>("/products/categories", data);
+  }): Promise<TCategory> => {
+    const response = await api.post<TCategory>("/products/categories", data);
     return response.data;
   },
 
@@ -124,8 +79,8 @@ export const productsApi = {
   updateCategory: async (
     id: string,
     data: { name: string; description?: string }
-  ): Promise<Category> => {
-    const response = await api.put<Category>(
+  ): Promise<TCategory> => {
+    const response = await api.put<TCategory>(
       `/products/categories/${id}`,
       data
     );
@@ -174,7 +129,7 @@ export const productsApi = {
   },
 
   // Export products to CSV/Excel
-  exportProducts: async (query: ProductsQuery = {}): Promise<Blob> => {
+  exportProducts: async (query: TProductsQuery = {}): Promise<Blob> => {
     const params = new URLSearchParams();
 
     if (query.status) params.append("status", query.status);
@@ -184,6 +139,6 @@ export const productsApi = {
     const response = await api.get(`/products/export?${params.toString()}`, {
       responseType: "blob",
     });
-    return response.data as Blob;
+    return response.data as unknown as Blob;
   },
 };

@@ -11,6 +11,7 @@ import { useAuthStore } from "@/lib/store/auth-store";
 import { toast } from "sonner";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const loginSchema = z.object({
   phone: z
@@ -67,9 +68,11 @@ export function LoginForm() {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8">
+    <div className="bg-platinum-100 rounded-lg shadow-sm p-8">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">ورود به سیستم</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          ورود به حساب کاربری
+        </h2>
         <p className="text-gray-600">اطلاعات خود را وارد کنید</p>
       </div>
 
@@ -84,7 +87,7 @@ export function LoginForm() {
           <Input
             id="phone"
             type="tel"
-            placeholder="09123456789"
+            placeholder="0990***0123"
             {...register("phone")}
             className={errors.phone ? "border-red-500" : ""}
           />
@@ -103,15 +106,19 @@ export function LoginForm() {
           <div className="relative">
             <Input
               id="password"
+              dir="ltr"
               type={showPassword ? "text" : "password"}
               placeholder="رمز عبور خود را وارد کنید"
               {...register("password")}
-              className={errors.password ? "border-red-500 pr-10" : "pr-10"}
+              className={cn(
+                "placeholder:text-right ",
+                errors.password ? "border-red-500 pr-10" : "pr-10"
+              )}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
             >
               {showPassword ? (
                 <EyeOff className="h-4 w-4" />
@@ -130,7 +137,7 @@ export function LoginForm() {
         <div className="flex items-center justify-between">
           <Link
             href="/forgot-password"
-            className="text-sm text-indigo-600 hover:text-indigo-500"
+            className="text-sm text-blue-400 hover:text-blue-500"
           >
             فراموشی رمز عبور؟
           </Link>
@@ -153,7 +160,7 @@ export function LoginForm() {
           حساب کاربری ندارید؟{" "}
           <Link
             href="/register"
-            className="text-indigo-600 hover:text-indigo-500 font-medium"
+            className="text-blue-400 hover:text-blue-500 font-medium"
           >
             ثبت نام کنید
           </Link>

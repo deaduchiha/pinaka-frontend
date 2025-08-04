@@ -10,6 +10,7 @@ import { useAuthStore } from "@/lib/store/auth-store";
 import { toast } from "sonner";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const registerSchema = z
   .object({
@@ -18,7 +19,6 @@ const registerSchema = z
       .string()
       .min(1, "شماره تلفن الزامی است")
       .regex(/^09\d{9}$/, "شماره تلفن باید با 09 شروع شود و 11 رقم باشد"),
-    email: z.string().email("ایمیل نامعتبر است").optional().or(z.literal("")),
     password: z
       .string()
       .min(8, "رمز عبور باید حداقل 8 کاراکتر باشد")
@@ -39,7 +39,7 @@ export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const registerAction = useAuthStore((state) => state.register);
+  const { register: registerAction } = useAuthStore();
 
   const {
     register,
@@ -55,7 +55,6 @@ export function RegisterForm() {
       await registerAction({
         name: data.name,
         phone: data.phone,
-        email: data.email || undefined,
         password: data.password,
       });
       toast.success("ثبت نام موفقیت‌آمیز بود");
@@ -115,25 +114,6 @@ export function RegisterForm() {
 
         <div>
           <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            ایمیل (اختیاری)
-          </label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="example@email.com"
-            {...register("email")}
-            className={errors.email ? "border-red-500" : ""}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label
             htmlFor="password"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
@@ -141,16 +121,20 @@ export function RegisterForm() {
           </label>
           <div className="relative">
             <Input
+              dir="ltr"
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="رمز عبور خود را وارد کنید"
               {...register("password")}
-              className={errors.password ? "border-red-500 pr-10" : "pr-10"}
+              className={cn(
+                "placeholder:text-right",
+                errors.password ? "border-red-500 pr-10" : "pr-10"
+              )}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
             >
               {showPassword ? (
                 <EyeOff className="h-4 w-4" />
@@ -175,18 +159,20 @@ export function RegisterForm() {
           </label>
           <div className="relative">
             <Input
+              dir="ltr"
               id="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
               placeholder="رمز عبور را تکرار کنید"
               {...register("confirmPassword")}
-              className={
-                errors.confirmPassword ? "border-red-500 pr-10" : "pr-10"
-              }
+              className={cn(
+                "placeholder:text-right",
+                errors.password ? "border-red-500 pr-10" : "pr-10"
+              )}
             />
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
             >
               {showConfirmPassword ? (
                 <EyeOff className="h-4 w-4" />
@@ -219,7 +205,7 @@ export function RegisterForm() {
           قبلاً حساب کاربری دارید؟{" "}
           <Link
             href="/login"
-            className="text-indigo-600 hover:text-indigo-500 font-medium"
+            className="text-blue-400 hover:text-blue-500 font-medium"
           >
             وارد شوید
           </Link>

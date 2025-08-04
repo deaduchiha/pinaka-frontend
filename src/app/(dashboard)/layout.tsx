@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/store/auth-store";
 import { Sidebar } from "@/components/layout/sidebar";
-import { Header } from "@/components/layout/header";
 import { Loader2 } from "lucide-react";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import AppSidebar from "@/components/sidebar/app-sidebar";
+import { SiteHeader } from "@/components/sidebar/site-header";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -59,7 +61,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <SiteHeader />
+        <main className="p-4">{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
+  );
+
+  return (
+    <div className="flex h-screen ">
       {/* Sidebar */}
       <div className="hidden lg:block">
         <Sidebar />
@@ -77,11 +89,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header
-          onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)}
-          showSidebar={true}
-        />
-
         <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>

@@ -45,7 +45,13 @@ const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      <Toaster position="top-right" richColors closeButton duration={4000} />
+      <Toaster
+        style={{ fontFamily: "unset" }}
+        position="top-right"
+        richColors
+        closeButton
+        duration={4000}
+      />
     </QueryClientProvider>
   );
 };

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { authApi, LoginRequest, RegisterRequest } from "@/lib/api/auth";
+import { authApi } from "@/lib/api/auth";
+import { TLoginRequest, TRegisterRequest } from "@/types/api/auth";
 
 interface User {
   id: string;
@@ -20,8 +21,8 @@ interface AuthState {
 
 interface AuthActions {
   // Actions
-  login: (data: LoginRequest) => Promise<void>;
-  register: (data: RegisterRequest) => Promise<void>;
+  login: (data: TLoginRequest) => Promise<void>;
+  register: (data: TRegisterRequest) => Promise<void>;
   logout: () => Promise<void>;
   getCurrentUser: () => Promise<void>;
   clearError: () => void;
@@ -49,7 +50,7 @@ export const useAuthStore = create<AuthStore>()(
       ...initialState,
 
       // Actions
-      login: async (data: LoginRequest) => {
+      login: async (data: TLoginRequest) => {
         set({ isLoading: true, error: null });
         try {
           const response = await authApi.login(data);
@@ -76,7 +77,7 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
 
-      register: async (data: RegisterRequest) => {
+      register: async (data: TRegisterRequest) => {
         set({ isLoading: true, error: null });
         try {
           const response = await authApi.register(data);
