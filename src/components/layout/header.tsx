@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export function Header() {
   return (
-    <header className="border-b py-3 sticky top-0 z-50 bg-white border-jetblack-100">
+    <header className="border-b py-3 sticky top-0 z-50 bg-platinum-200 border-jetblack-100">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <MenuSidebar />
 
