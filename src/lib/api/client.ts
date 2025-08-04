@@ -89,35 +89,30 @@ export const api = {
   get: <T = unknown>(
     url: string,
     config?: AxiosRequestConfig
-  ): Promise<ApiResponse<T>> =>
-    apiClient.get(url, config).then((response) => response.data),
+  ): Promise<ApiResponse<T>> => apiClient.get(url, config),
 
   post: <T = unknown>(
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig
-  ): Promise<ApiResponse<T>> =>
-    apiClient.post(url, data, config).then((response) => response.data),
+  ): Promise<ApiResponse<T>> => apiClient.post(url, data, config),
 
   put: <T = unknown>(
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig
-  ): Promise<ApiResponse<T>> =>
-    apiClient.put(url, data, config).then((response) => response.data),
+  ): Promise<ApiResponse<T>> => apiClient.put(url, data, config),
 
   patch: <T = unknown>(
     url: string,
     data?: unknown,
     config?: AxiosRequestConfig
-  ): Promise<ApiResponse<T>> =>
-    apiClient.patch(url, data, config).then((response) => response.data),
+  ): Promise<ApiResponse<T>> => apiClient.patch(url, data, config),
 
   delete: <T = unknown>(
     url: string,
     config?: AxiosRequestConfig
-  ): Promise<ApiResponse<T>> =>
-    apiClient.delete(url, config).then((response) => response.data),
+  ): Promise<ApiResponse<T>> => apiClient.delete(url, config),
 };
 
 export default apiClient;

@@ -2,64 +2,40 @@ import { api } from "./client";
 import {
   TLoginRequest,
   TRegisterRequest,
-  TAuthResponse,
-  TChangePasswordRequest,
-  TForgotPasswordRequest,
-  TResetPasswordRequest,
-  TVerifyOtpRequest,
+  TLoginResponse,
+  TRegisterResponse,
+  TMeResponse,
 } from "@/types/api/auth";
 
 // Auth API service
 export const authApi = {
   // Login
-  login: async (data: TLoginRequest): Promise<TAuthResponse> => {
-    const response = await api.post<TAuthResponse>("/auth/login", data);
-    return response as unknown as TAuthResponse;
+  login: async (data: TLoginRequest): Promise<TLoginResponse> => {
+    const response = await api.post<TLoginResponse>("/auth/login", data);
+    return response.data;
   },
 
   // Register
-  register: async (data: TRegisterRequest): Promise<TAuthResponse> => {
-    const response = await api.post<TAuthResponse>("/auth/register", data);
+  register: async (data: TRegisterRequest): Promise<TRegisterResponse> => {
+    const response = await api.post<TRegisterResponse>("/auth/register", data);
     return response.data;
   },
 
-  // Logout
-  logout: async (): Promise<void> => {
-    await api.post("/auth/logout");
-  },
+  // Logout #TODO
 
   // Get current user
-  getCurrentUser: async () => {
-    const response = await api.get("/auth/me");
-    return response;
-  },
-
-  // Change password
-  changePassword: async (data: TChangePasswordRequest): Promise<void> => {
-    await api.post("/auth/change-password", data);
-  },
-
-  // Forgot password
-  forgotPassword: async (data: TForgotPasswordRequest): Promise<void> => {
-    await api.post("/auth/forgot-password", data);
-  },
-
-  // Reset password
-  resetPassword: async (data: TResetPasswordRequest): Promise<void> => {
-    await api.post("/auth/reset-password", data);
-  },
-
-  // Verify OTP
-  verifyOtp: async (data: TVerifyOtpRequest): Promise<{ isValid: boolean }> => {
-    const response = await api.post<{ isValid: boolean }>(
-      "/auth/verify-otp",
-      data
-    );
+  getCurrentUser: async (): Promise<TMeResponse> => {
+    const response = await api.get<TMeResponse>("/auth/me");
     return response.data;
   },
 
-  // Send OTP
-  sendOtp: async (phone: string): Promise<void> => {
-    await api.post("/auth/send-otp", { phone });
-  },
+  // Change password #TODO
+
+  // Forgot password #TODO
+
+  // Reset password #TODO
+
+  // Verify OTP #TODO
+
+  // Send OTP #TODO
 };

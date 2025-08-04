@@ -1,42 +1,60 @@
-// Types
+import { UserRole, UserStatus } from "./common";
+
+// auth/login | REQUEST
 export type TLoginRequest = {
   phone: string;
   password: string;
 };
 
+// auth/register | REQUEST
 export type TRegisterRequest = {
   name?: string;
   phone: string;
   password: string;
 };
 
-export type TAuthResponse = {
+// auth/login | RESPONSE
+export type TLoginResponse = {
+  access_token: string;
+  expires_in: number;
   user: {
-    email?: string;
     id: string;
     name: string;
     phone: string;
-    role: "admin" | "manager" | "customer";
+    role: UserRole;
+    status: UserStatus;
   };
-  access_token: string;
 };
 
-export type TChangePasswordRequest = {
-  currentPassword: string;
-  newPassword: string;
-};
-
-export type TForgotPasswordRequest = {
+// auth/register | RESPONSE
+export type TRegisterResponse = {
+  emailVerified: boolean;
+  id: string;
+  name: string;
   phone: string;
+  phoneVerified: boolean;
+  role: UserRole;
+  status: UserStatus;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
-export type TResetPasswordRequest = {
+export type TMeResponse = {
+  address: string | null;
+  city: string | null;
+  metadata: Record<string, unknown> | null;
+  nationalId: string | null;
+  postalCode: string | null;
+  province: string | null;
+  id: string;
+  name: string;
+  email: string;
   phone: string;
-  otp: string;
-  newPassword: string;
-};
-
-export type TVerifyOtpRequest = {
-  phone: string;
-  otp: string;
+  role: UserRole;
+  status: UserStatus;
+  emailVerified: boolean;
+  phoneVerified: boolean;
+  lastLoginAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
 };
