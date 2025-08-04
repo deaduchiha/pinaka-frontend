@@ -39,6 +39,7 @@ export type TRegisterResponse = {
   updatedAt: Date;
 };
 
+// auth/me | RESPONSE
 export type TMeResponse = {
   address: string | null;
   city: string | null;
