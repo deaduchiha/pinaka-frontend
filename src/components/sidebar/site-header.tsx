@@ -16,7 +16,7 @@ export function SiteHeader() {
 
         <h1 className="text-base font-medium">
           {/* name of Restaurant or Menu */}
-          پورتال باشگاه مشتریان رستوران <span className="font-bold">آرمین</span>
+          داشبورد مدیریتی
         </h1>
 
         {/* actions user account */}
